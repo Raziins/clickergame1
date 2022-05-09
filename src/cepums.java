@@ -28,14 +28,13 @@ public class cepums {
         cpst.setFont(new Font("cepumuteksts", Font.BOLD, 20));
         f.add(cpst);
 
-
         // Taimeris veic darbibu katru sekundi
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                mainigie.cepumi = mainigie.cepumi+mainigie.cps; 
+                mainigie.cepumi = mainigie.cepumi + mainigie.cps;
                 nauda.setText("cepumi:" + mainigie.cepumi);
                 cpst.setText("cps:" + mainigie.cps);
             }
@@ -50,9 +49,10 @@ public class cepums {
         f.add(b1);
         JButton b2 = new JButton("+2 cepums sekunde (" + mainigie.cena3 + "c)"); // 2. cps upgrade
         f.add(b2);
-        JButton b3 = new JButton("+1 cepums sekunde (" + mainigie.cena4 + "c)"); // 3. cps upgrade
+        JButton b3 = new JButton("+4 cepums sekunde (" + mainigie.cena4 + "c)"); // 3. cps upgrade
         f.add(b3);
-        // JButton b4 = new JButton("+1 cepums sekunde (" + mainigie.cena5 + "c)"); // 4. cps upgrade
+        // JButton b4 = new JButton("+1 cepums sekunde (" + mainigie.cena5 + "c)"); //
+        // 4. cps upgrade
         b.setBounds(0, 0, 500, 500);
         b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { // action listeners kurs pieskaita cepumus par katru klikšķi
@@ -94,7 +94,7 @@ public class cepums {
         b2.addActionListener(new ActionListener() { // action listeners 2 cps upgrade
             public void actionPerformed(ActionEvent e) {
                 if (mainigie.cepumi >= mainigie.cena3) {
-                    mainigie.cps++;
+                    mainigie.cps = mainigie.cps + 2;
                     mainigie.cepumi = mainigie.cepumi - mainigie.cena3;
                     mainigie.cena3 = mainigie.cena3 * 2;
                     b1.setText("+2 cepums/sec (" + mainigie.cena3 + "c)");
@@ -102,35 +102,38 @@ public class cepums {
 
                 }
                 b3.setBounds(900, 200, 200, 30);
-                b3.addActionListener(new ActionListener() { // action listeners 2 cps upgrade
+            
+                b3.addActionListener(new ActionListener() { // action listeners 3 cps upgrade
                     public void actionPerformed(ActionEvent e) {
                         if (mainigie.cepumi >= mainigie.cena4) {
-                            mainigie.cps++;
+                            mainigie.cps = mainigie.cps + 4;
                             mainigie.cepumi = mainigie.cepumi - mainigie.cena4;
                             mainigie.cena4 = mainigie.cena4 * 2;
                             b1.setText("+4 cepums/sec (" + mainigie.cena4 + "c)");
                             nauda.setText("cepumi:" + mainigie.cepumi);
 
+                        }
+                    }
+                });
+
+                f.setSize(400, 400);
+                f.setLayout(null);
+                f.setVisible(true);
+                f.add(nauda);
+                f.add(b);
+                f.add(bplus);
+                f.add(b1);
+                f.add(b2);
+                f.add(b3);
+
             }
-            }});
+        });
+    }
+}
 
-        f.setSize(400, 400);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.add(nauda);
-        f.add(b);
-        f.add(bplus);
-        f.add(b1);
-        f.add(b2);
-        f.add(b3);
-        
-
-    }});
-}}
-
-    // public static boolean enoughcookies(int currentcookies, int requiredcookies){
-    // if (currentcookies>=requiredcookies) {
-    // return true;
-    // } else {
-    // return false;
-    //
+// public static boolean enoughcookies(int currentcookies, int requiredcookies){
+// if (currentcookies>=requiredcookies) {
+// return true;
+// } else {
+// return false;
+//
