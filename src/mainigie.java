@@ -8,6 +8,8 @@ public class mainigie {
     public static int cena3 = 600;
     public static int cena4 = 1200;
     public static int cena5 = 2400;
+    public static int cursors = 0;
+    public static int cursorcps = 0;
 }
 
 

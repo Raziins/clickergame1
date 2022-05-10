@@ -16,9 +16,10 @@ public class cepums {
         f.setLayout(null);
         f.setVisible(true);
 
-        // LABEL PRIEKS CEPUMU(NAUDAS) DAUDZUMA cps
+        // LABELI PRIEKS NAUDAS SKAITISANAS
         JLabel nauda;
         JLabel cpst;
+        JLabel cpc;
         nauda = new JLabel();
         nauda.setBounds(500, 20, 300, 90);
         nauda.setFont(new Font("cepumuteksts", Font.BOLD, 35));
@@ -27,6 +28,10 @@ public class cepums {
         cpst.setBounds(500, 80, 150, 45);
         cpst.setFont(new Font("cepumuteksts", Font.BOLD, 20));
         f.add(cpst);
+        cpc = new JLabel();
+        cpc.setBounds(500, 110, 150, 45);
+        cpc.setFont(new Font("cepumuteksts", Font.BOLD, 20));
+        f.add(cpc);
 
         // Taimeris veic darbibu katru sekundi
 
@@ -37,6 +42,7 @@ public class cepums {
                 mainigie.cepumi = mainigie.cepumi + mainigie.cps;
                 nauda.setText("cepumi:" + mainigie.cepumi);
                 cpst.setText("cps:" + mainigie.cps);
+                cpc.setText("cpc:"+mainigie.cepumiplus);
             }
         }, 1000, 1000);
 
@@ -51,8 +57,9 @@ public class cepums {
         f.add(b2);
         JButton b3 = new JButton("+4 cepums sekunde (" + mainigie.cena4 + "c)"); // 3. cps upgrade
         f.add(b3);
+        JButton b4 = new JButton("Auto clicker 1/s (" + mainigie.cena5 + "c)"); // auto clicker upgrade
+        f.add(b4);
         // JButton b4 = new JButton("+1 cepums sekunde (" + mainigie.cena5 + "c)"); //
-        // 4. cps upgrade
         b.setBounds(0, 0, 500, 500);
         b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { // action listeners kurs pieskaita cepumus par katru klikšķi
@@ -73,6 +80,9 @@ public class cepums {
                     mainigie.cena1 = mainigie.cena1 * 3;
                     bplus.setText("+1 par klikšķi (" + mainigie.cena1 + "c)");
                     nauda.setText("cepumi:" + mainigie.cepumi);
+                    if (mainigie.cursors>=1) {
+                        mainigie.cps = mainigie.cps+(mainigie.cepumiplus*mainigie.cursors);
+                    }
                 }
 
             }
@@ -97,38 +107,53 @@ public class cepums {
                     mainigie.cps = mainigie.cps + 2;
                     mainigie.cepumi = mainigie.cepumi - mainigie.cena3;
                     mainigie.cena3 = mainigie.cena3 * 2;
-                    b1.setText("+2 cepums/sec (" + mainigie.cena3 + "c)");
+                    b2.setText("+2 cepums/sec (" + mainigie.cena3 + "c)");
                     nauda.setText("cepumi:" + mainigie.cepumi);
 
                 }
-                b3.setBounds(900, 200, 200, 30);
-            
-                b3.addActionListener(new ActionListener() { // action listeners 3 cps upgrade
-                    public void actionPerformed(ActionEvent e) {
-                        if (mainigie.cepumi >= mainigie.cena4) {
-                            mainigie.cps = mainigie.cps + 4;
-                            mainigie.cepumi = mainigie.cepumi - mainigie.cena4;
-                            mainigie.cena4 = mainigie.cena4 * 2;
-                            b1.setText("+4 cepums/sec (" + mainigie.cena4 + "c)");
-                            nauda.setText("cepumi:" + mainigie.cepumi);
-
-                        }
-                    }
-                });
-
-                f.setSize(400, 400);
-                f.setLayout(null);
-                f.setVisible(true);
-                f.add(nauda);
-                f.add(b);
-                f.add(bplus);
-                f.add(b1);
-                f.add(b2);
-                f.add(b3);
-
             }
         });
+        b3.setBounds(900, 250, 200, 30);
+        b3.addActionListener(new ActionListener() { // action listeners 3 cps upgrade
+            public void actionPerformed(ActionEvent e) {
+                if (mainigie.cepumi >= mainigie.cena4) {
+                    mainigie.cps = mainigie.cps + 4;
+                    mainigie.cepumi = mainigie.cepumi - mainigie.cena4;
+                    mainigie.cena4 = mainigie.cena4 * 2;
+                    b3.setText("+4 cepums/sec (" + mainigie.cena4 + "c)");
+                    nauda.setText("cepumi:" + mainigie.cepumi);
+
+                }
+            }
+        });
+        b4.setBounds(900, 250, 200, 30);
+        b4.addActionListener(new ActionListener() { // action listeners auto clickerim
+            public void actionPerformed(ActionEvent e) {
+                if (mainigie.cepumi >= mainigie.cena5) {
+                    mainigie.cps = mainigie.cps + mainigie.cepumiplus;
+                    mainigie.cepumi = mainigie.cepumi - mainigie.cena5;
+                    mainigie.cena5 = mainigie.cena5 * 2;
+                    mainigie.cursors++;
+                    b4.setText("Auto clicker 1/s (" + mainigie.cena5 + "c)");
+                    nauda.setText("cepumi:" + mainigie.cepumi);
+                    
+
+                }
+            }
+        });
+
+        f.setSize(400, 400);
+        f.setLayout(null);
+        f.setVisible(true);
+        f.add(nauda);
+        f.add(b);
+        f.add(bplus);
+        f.add(b1);
+        f.add(b2);
+        f.add(b3);
+
     }
+
 }
 
 // public static boolean enoughcookies(int currentcookies, int requiredcookies){
