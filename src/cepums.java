@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.TimerTask;
 import java.util.Timer;
-
-import javax.lang.model.util.ElementScanner14;
 import javax.swing.*;
 
 public class cepums {
@@ -20,6 +18,7 @@ public class cepums {
         JLabel nauda;
         JLabel cpst;
         JLabel cpc;
+        JLabel kursors;
         nauda = new JLabel();
         nauda.setBounds(500, 20, 300, 90);
         nauda.setFont(new Font("cepumuteksts", Font.BOLD, 35));
@@ -32,6 +31,10 @@ public class cepums {
         cpc.setBounds(500, 110, 150, 45);
         cpc.setFont(new Font("cepumuteksts", Font.BOLD, 20));
         f.add(cpc);
+        kursors = new JLabel();
+        kursors.setText("☞");
+        kursors.setFont(new Font("cepumuteksts", Font.BOLD, 80));
+        
 
         // Taimeris veic darbibu katru sekundi
 
@@ -39,10 +42,11 @@ public class cepums {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                mainigie.cepumi = mainigie.cepumi + mainigie.cps;
+                mainigie.cepumi = mainigie.cepumi + mainigie.cps + mainigie.cursorcps;
+                mainigie.combcps = mainigie.cps + mainigie.cursorcps;
                 nauda.setText("cepumi:" + mainigie.cepumi);
-                cpst.setText("cps:" + mainigie.cps);
-                cpc.setText("cpc:"+mainigie.cepumiplus);
+                cpst.setText("cps:" + mainigie.combcps);
+                cpc.setText("cpc:" + mainigie.cepumiplus);
             }
         }, 1000, 1000);
 
@@ -59,7 +63,6 @@ public class cepums {
         f.add(b3);
         JButton b4 = new JButton("Auto clicker 1/s (" + mainigie.cena5 + "c)"); // auto clicker upgrade
         f.add(b4);
-        // JButton b4 = new JButton("+1 cepums sekunde (" + mainigie.cena5 + "c)"); //
         b.setBounds(0, 0, 500, 500);
         b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) { // action listeners kurs pieskaita cepumus par katru klikšķi
@@ -69,22 +72,6 @@ public class cepums {
                     mainigie.cepumi = mainigie.cepumi + mainigie.cepumiplus;
                     nauda.setText("cepumi:" + mainigie.cepumi);
                 }
-            }
-        });
-        bplus.setBounds(900, 100, 200, 30);
-        bplus.addActionListener(new ActionListener() { // action listeners klikšķa plusošanas pogai
-            public void actionPerformed(ActionEvent e) {
-                if (mainigie.cepumi >= mainigie.cena1) {
-                    mainigie.cepumiplus++;
-                    mainigie.cepumi = mainigie.cepumi - mainigie.cena1;
-                    mainigie.cena1 = mainigie.cena1 * 3;
-                    bplus.setText("+1 par klikšķi (" + mainigie.cena1 + "c)");
-                    nauda.setText("cepumi:" + mainigie.cepumi);
-                    if (mainigie.cursors>=1) {
-                        mainigie.cps = mainigie.cps+(mainigie.cepumiplus*mainigie.cursors);
-                    }
-                }
-
             }
         });
         b1.setBounds(900, 150, 200, 30);
@@ -126,31 +113,39 @@ public class cepums {
                 }
             }
         });
-        b4.setBounds(900, 250, 200, 30);
+        b4.setBounds(900, 300, 200, 30);
         b4.addActionListener(new ActionListener() { // action listeners auto clickerim
             public void actionPerformed(ActionEvent e) {
                 if (mainigie.cepumi >= mainigie.cena5) {
-                    mainigie.cps = mainigie.cps + mainigie.cepumiplus;
+                    mainigie.cursors++;
+                    mainigie.test = mainigie.cursorcps;
+                    mainigie.cursorcps = mainigie.cursors * mainigie.cepumiplus;
                     mainigie.cepumi = mainigie.cepumi - mainigie.cena5;
                     mainigie.cena5 = mainigie.cena5 * 2;
-                    mainigie.cursors++;
                     b4.setText("Auto clicker 1/s (" + mainigie.cena5 + "c)");
                     nauda.setText("cepumi:" + mainigie.cepumi);
-                    
+                    kursors.setBounds(mainigie.x, 300, 1000, 1000);
+                    f.add(kursors);
 
                 }
             }
         });
+        bplus.setBounds(900, 100, 200, 30);
+        bplus.addActionListener(new ActionListener() { // action listeners klikšķa plusošanas pogai
+            public void actionPerformed(ActionEvent e) {
+                if (mainigie.cepumi >= mainigie.cena1) {
+                    mainigie.cepumiplus++;
+                    mainigie.cepumi = mainigie.cepumi - mainigie.cena1;
+                    mainigie.cena1 = mainigie.cena1 * 3;
+                    bplus.setText("+1 par klikšķi (" + mainigie.cena1 + "c)");
+                    nauda.setText("cepumi:" + mainigie.cepumi);
+                    if (mainigie.cursors >= 1) {
+                        mainigie.cursorcps = mainigie.cursors * mainigie.cepumiplus;
+                    }
+                }
 
-        f.setSize(400, 400);
-        f.setLayout(null);
-        f.setVisible(true);
-        f.add(nauda);
-        f.add(b);
-        f.add(bplus);
-        f.add(b1);
-        f.add(b2);
-        f.add(b3);
+            }
+        });
 
     }
 

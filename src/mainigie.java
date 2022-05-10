@@ -10,6 +10,9 @@ public class mainigie {
     public static int cena5 = 2400;
     public static int cursors = 0;
     public static int cursorcps = 0;
+    public static int test = 0;
+    public static int combcps = 0;
+    public static int x = 100+50*cursors;
 }
 
 
