@@ -158,7 +158,7 @@ public class cepums {
         });
         stop.setBounds(900, 800, 200, 30);
         stop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { // action listeners kurs pieskaita cepumus par katru klikšķi
+            public void actionPerformed(ActionEvent e) { 
                 f.setVisible(false);
                 f.dispose();
                 Frame f1 = new Frame("leaderboard");
@@ -172,6 +172,15 @@ public class cepums {
                 f1.setSize(400, 400);
                 f1.setLayout(null);
                 f1.setVisible(true);
+                JButton ent = new JButton("Iesniegt rezultātu"); 
+                f1.add(ent);
+                ent.setBounds(50, 150, 200, 30);
+        ent.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) { 
+                // String str = jTextField.getText() // get string from jtextfield
+
+                }      
+        });
                 try (FileWriter f = new FileWriter("leader.txt", true);
                         BufferedWriter b = new BufferedWriter(f);
                         PrintWriter p = new PrintWriter(b);) {
