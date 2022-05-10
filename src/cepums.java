@@ -2,12 +2,11 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.TimerTask;
+import java.util.Map;
 import java.util.Timer;
 import javax.swing.*;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedWriter;
 
@@ -157,45 +156,57 @@ public class cepums {
             }
         });
         stop.setBounds(900, 800, 200, 30);
-        stop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { 
+        stop.addActionListener(new ActionListener() {           //stop pogas action listeners
+            public void actionPerformed(ActionEvent e) {
                 f.setVisible(false);
-                f.dispose();
-                Frame f1 = new Frame("leaderboard");
+                f.dispose();                                    //aizver frame
+                Frame f1 = new Frame("vardainput");             //uztaisa varda frame
                 f1.setSize(1150, 850);
                 f1.setLayout(null);
                 f1.setVisible(true);
                 JTextField vards;
                 vards = new JTextField("ieraksti savu vardu");
                 vards.setBounds(50, 100, 200, 30);
-                f1.add(vards);
+                f1.add(vards);                                              
                 f1.setSize(400, 400);
                 f1.setLayout(null);
                 f1.setVisible(true);
-                JButton ent = new JButton("Iesniegt rezultātu"); 
+                JButton ent = new JButton("Iesniegt rezultātu");
                 f1.add(ent);
                 ent.setBounds(50, 150, 200, 30);
-        ent.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) { 
-                // String str = jTextField.getText() // get string from jtextfield
+                ent.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String str = vards.getText();
+                        try (FileWriter f = new FileWriter("leader.txt", true);        //teksta ievade txt file
+                                BufferedWriter b = new BufferedWriter(f);
+                                PrintWriter p = new PrintWriter(b);) {
 
-                }      
-        });
-                try (FileWriter f = new FileWriter("leader.txt", true);
-                        BufferedWriter b = new BufferedWriter(f);
-                        PrintWriter p = new PrintWriter(b);) {
+                            p.println(str + "-" + mainigie.cepumi);
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        f1.setVisible(false);
+                        f1.dispose();
+                        GFG leaderboard = new GFG();     
+                        printMap(leaderboard.HashMapFromTextFile());    
+                    }
 
-                    p.println("appending text into file");
-                } catch (IOException i) {
-                    i.printStackTrace();
-                }
+                });
             }
         });
+
     }
+    public static <K, V> void printMap(Map<K, V> map) {
+        JFrame f= new JFrame();
+         DefaultListModel<String> l1 = new DefaultListModel<>();
+         for (Map.Entry<K, V> entry : map.entrySet()) {
+                  l1.addElement(entry.getKey()+ " : " + entry.getValue());
+       }
+        JList<String> list = new JList<>(l1);
+         list.setBounds(0,0, 400,400);
+         f.add(list);
+         f.setSize(400,400);
+         f.setLayout(null);
+         f.setVisible(true);
+} 
 }
-// public static boolean enoughcookies(int currentcookies, int requiredcookies){
-// if (currentcookies>=requiredcookies) {
-// return true;
-// } else {
-// return false;
-//
